@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Hero Academia Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card">
+    <h1>My Hero Academia Quiz</h1>
+    <p class="subtitle">Prove your MHA knowledge.</p>
+
+    <section id="start-screen">
+      <label for="fullName">Enter your full name</label>
+      <input id="fullName" type="text" placeholder="First and Last Name" autocomplete="name">
+      <button id="startBtn">Start Quiz</button>
+      <p id="nameError" class="error"></p>
+    </section>
+
+    <section id="quiz-screen" class="hidden">
+      <div class="progress" id="progress"></div>
+      <h2 id="question"></h2>
+      <div id="answers"></div>
+      <button id="nextBtn" class="hidden">Next Question</button>
+    </section>
+
+    <section id="results-screen" class="hidden">
+      <h2>Quiz Complete!</h2>
+      <p id="resultName"></p>
+      <div class="score" id="score"></div>
+      <p id="grade"></p>
+      <button id="restartBtn">Take Quiz Again</button>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

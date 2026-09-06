@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MHA Quiz - Master View</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    table { width:100%; border-collapse:collapse; margin-top:20px; }
+    th,td { padding:10px; border-bottom:1px solid #555; text-align:left; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-top:15px; }
+    .stat { background:#292929; padding:15px; border-radius:10px; }
+    .danger { background:#8b1e2d; }
+  </style>
+</head>
+<body>
+<main class="card">
+  <h1>Master View</h1>
+  <p class="subtitle">Scores stored on this browser.</p>
+  <div class="stats">
+    <div class="stat">Students: <strong id="count">0</strong></div>
+    <div class="stat">Average: <strong id="avg">0</strong></div>
+    <div class="stat">Highest: <strong id="high">0</strong></div>
+  </div>
+  <table>
+    <thead><tr><th>Name</th><th>Score</th><th>Grade</th><th>Date</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <button class="danger" onclick="clearScores()">Clear Scores</button>
+</main>
+<script>
+function loadScores() {
+  const scores = JSON.parse(localStorage.getItem("mhaScores") || "[]");
+  document.getElementById("count").textContent = scores.length;
+  const avg = scores.length ? Math.round(scores.reduce((s,x)=>s+x.score,0)/scores.length) : 0;
+  const high = scores.length ? Math.max(...scores.map(x=>x.score)) : 0;
+  document.getElementById("avg").textContent = avg + "/100";
+  document.getElementById("high").textContent = high + "/100";
+  document.getElementById("rows").innerHTML = scores.map(x =>
+    `<tr><td>${escapeHtml(x.name)}</td><td>${x.score}/100</td><td>${x.letter}</td><td>${new Date(x.date).toLocaleString()}</td></tr>`
+  ).join("");
+}
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+function clearScores() {
+  if (confirm("Clear every saved score on this browser?")) {
+    localStorage.removeItem("mhaScores");
+    loadScores();
+  }
+}
+loadScores();
+</script>
+</body>
+</html>
